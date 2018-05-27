@@ -1,0 +1,9 @@
+.mint-navbar {
+    height: 40px;
+}
+.mint-navbar .mint-tab-item {
+    padding: 13px 0;
+}
+.mint-tab-item-label {
+    font-size: 15px;
+}
