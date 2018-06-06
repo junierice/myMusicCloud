@@ -1,10 +1,10 @@
 <template>
-    <div><p>SS</p></div>
+    <div></div>
 </template>
 
 <script>
 export default {
-  name: 'songSearch'
+    name: 'songHotBlock'
 }
 </script>
 

@@ -2,16 +2,16 @@
     <div>
         <brand></brand>
         <mt-navbar v-model="selected">
-            <mt-tab-item id="songReco" @click.native="handleSwicthTab()">推荐音乐</mt-tab-item>
-            <mt-tab-item id="songHot" @click.native="handleSwicthTab()">热歌榜</mt-tab-item>
-            <mt-tab-item id="songSearch" @click.native="handleSwicthTab()">搜索</mt-tab-item>
+            <mt-tab-item id="songReco">推荐音乐</mt-tab-item>
+            <mt-tab-item id="songHot">热歌榜</mt-tab-item>
+            <mt-tab-item id="songSearch">搜索</mt-tab-item>
         </mt-navbar>
         <mt-tab-container v-model="selected">
             <mt-tab-container-item id="songReco">
-                <songHot></songHot>
+                <songReco></songReco>
             </mt-tab-container-item>
             <mt-tab-container-item id="songHot">
-                <songReco></songReco>
+                <songHot></songHot>
             </mt-tab-container-item>
             <mt-tab-container-item id="songSearch">
                 <songSearch></songSearch>
@@ -30,12 +30,7 @@ export default {
   components: {brand, songHot, songReco, songSearch},
   data () {
     return {
-      selected: null
-    }
-  },
-  methods: {
-    handleSwicthTab: function () {
-      console.log(this.selected)
+      selected: 'songReco'
     }
   }
 }

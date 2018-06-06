@@ -1,8 +1,12 @@
 <template>
-    <div><p>HH</p></div>
+    <div>
+      <img />
+      <songHotBlock></songHotBlock>
+      <div></div>
+    </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 export default {
   name: 'songHot'
 }
