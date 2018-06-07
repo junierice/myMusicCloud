@@ -1,17 +1,21 @@
 <template>
     <div>
-      <img />
-      <songHotBlock></songHotBlock>
+      <img src="../../../img/btf-pic.png"/>
+      <songHotBlocks></songHotBlocks>
       <div></div>
     </div>
 </template>
 
 <script>
+import songHotBlocks from './songHotBlocks'
 export default {
-  name: 'songHot'
+  name: 'songHot',
+  components: {songHotBlocks}
 }
 </script>
 
 <style scoped>
-
+img{
+  width: 100%;
+}
 </style>

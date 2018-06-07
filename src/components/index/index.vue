@@ -14,13 +14,17 @@
                 <songHot></songHot>
             </mt-tab-container-item>
             <mt-tab-container-item id="songSearch">
-                <songSearch></songSearch>
+                <!-- <songSearch></songSearch> -->
+                <div>
+                    <li v-for="song in playlist" v-bind:key="song.id">{{song.name}}</li>
+                </div>
             </mt-tab-container-item>
         </mt-tab-container>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 import brand from '../brand/brand.vue'
 import songHot from '../songHot/songHot'
 import songReco from '../songReco/songReco'
@@ -30,7 +34,24 @@ export default {
   components: {brand, songHot, songReco, songSearch},
   data () {
     return {
-      selected: 'songReco'
+      selected: 'songReco',
+      playlist: []
+    }
+  },
+  created () {
+    this.init()
+  },
+  methods: {
+    init: function () {
+      axios.get('api/top/playlist?limit=10&order=new')
+        .then(res => {
+          this.playlist = res.data.playlists
+          // console.log(this.playlist)
+          return res
+        })
+        .catch(err => {
+          console.error(err)
+        })
     }
   }
 }
