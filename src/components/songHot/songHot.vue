@@ -2,7 +2,7 @@
     <div>
       <img src="../../../img/btf-pic.png"/>
       <songHotBlocks></songHotBlocks>
-      <div></div>
+      <div>查看完整榜单</div>
     </div>
 </template>
 
