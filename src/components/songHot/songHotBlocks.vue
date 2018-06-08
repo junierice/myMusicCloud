@@ -1,9 +1,12 @@
 <template>
     <div class="songBlock">
-      <mt-cell v-for="(song, index) in playlist" :key="song.id" :title='song.name' :label='computeLabel(song)'>
-        <img src="../../../img/play.png" width="26" height="26">
-        <span slot="icon">{{index+1}}</span>
-      </mt-cell>
+      <div class="b" v-for="song in playlist" :key="song.id">
+        <span class="a">01</span>
+        <mt-cell :title='song.name' :label='computeLabel(song)'>
+          <img src="../../../img/play.png" width="26" height="26">
+          <!-- <span slot="icon">{{index+1}}</span> -->
+        </mt-cell>
+      </div>
     </div>
 </template>
 
@@ -45,5 +48,8 @@ export default {
 <style scoped>
 .songBlock{
   text-align: left;
+}
+.a, .b{
+  display: flex
 }
 </style>

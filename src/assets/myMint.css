@@ -12,8 +12,9 @@
     border-bottom-color: #d43c33;
     color: #d43c33;
 }
-.mt-cell{
-  display: inline-block;
+.mint-cell {
+  display: flex;
+  flex: 1 1 auto;
 }
 .mint-cell-wrapper {
   line-height: normal;
