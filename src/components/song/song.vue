@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="m-song-clickarea" v-on:click="switchP()"></div>
-    <audio id="music" :src="mp3Url" autoplay></audio>
+    <audio id="music" :src="mp3Url" autoplay @canplay="print('canplay')"></audio>
     <div class="m-song-wrap">
       <div class="m-song-disc">
         <div class="m-song-rollwrap">
@@ -42,6 +42,9 @@ export default {
     // console.log('create')
   },
   methods: {
+    print: function (msg) {
+      console.log(msg)
+    },
     updateSong: function () {
       // 如果正在播放歌曲，要停掉
       this.isPlay = false
