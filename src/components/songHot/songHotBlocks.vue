@@ -3,7 +3,7 @@
       <div class="song" v-for="(song, index) in playlist" :key="song.id" @click="getSong(song.id)" >
         <p :class="index<3?'top_number':'number'">{{index>8?``:0}}{{index+1}}</p>
         <mt-cell :title='song.name' :label='computeLabel(song)'>
-          <img src="../../../img/play.png" width="26" height="26">
+          <img src="../../../img/play.png" width="26" height="26" />
         </mt-cell>
       </div>
     </div>
