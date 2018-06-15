@@ -32,7 +32,6 @@ import songSearch from '../songSearch/songSearch'
 export default {
   name: 'index',
   components: {brand, songHot, songReco, songSearch},
-  path: '/index',
   data () {
     return {
       selected: 'songReco',
