@@ -1,14 +1,16 @@
 <template>
   <div>
     <div class="m-song-clickarea" v-on:click="switchP()"></div>
-    <audio id="music" :src="mp3Url" autoplay @canplay="print('canplay')"></audio>
+    <audio id="music" :src="mp3Url" @canplay="playS()" @ended="stopS()"></audio>
     <div class="m-song-wrap">
       <div class="m-song-disc">
         <div class="m-song-rollwrap">
-          <img class = "m-song-pic Rotation" :class="isPlay?'play':'pause'" :src ="picUrl"/>
+          <img class = "m-song-pic" :class="isStop?'':(isPlay?'Rotation play':'Rotation pause')" :src ="picUrl"/>
+          <!-- :class="isPlay?'play':'pause'" -->
         </div>
       </div>
     </div>
+    <lyric></lyric>
     <p>{{ $route.params.id }}</p>
     <p>{{ $route.params.id }}</p>
     <p>{{ $route.params.id }}</p>
@@ -28,11 +30,14 @@
 
 <script>
 import axios from 'axios'
+import lyric from './lyric'
 export default {
   name: 'Song',
+  components: {lyric},
   data () {
     return {
       picUrl: null,
+      isStop: true,
       isPlay: false,
       mp3Url: null
     }
@@ -47,6 +52,7 @@ export default {
     },
     updateSong: function () {
       // 如果正在播放歌曲，要停掉
+      this.isStop = true
       this.isPlay = false
       if (this.mp3Url != null) {
         document.getElementById('music').pause()
@@ -63,11 +69,8 @@ export default {
       axios.get('api/music/url?id=' + this.$route.params.id)
         .then(res => {
           this.mp3Url = res.data.data[0].url
-          console.log(this.mp3Url)
           if (this.mp3Url === null) {
             console.log('由于版权保护，您所在的地区暂时无法使用')
-          } else {
-            this.isPlay = true
           }
         })
         .catch(err => {
@@ -81,12 +84,29 @@ export default {
           this.isPlay = false
           document.getElementById('music').pause()
         } else {
+          this.isStop = false
           this.isPlay = true
           document.getElementById('music').play()
         }
       } else {
         console.log('由于版权保护，您所在的地区暂时无法使用')
       }
+    },
+    // play song
+    playS: function () {
+      this.isStop = false
+      this.isPlay = true
+      let p = document.getElementById('music').play()
+      p.catch(err => {
+        console.log(err)
+        this.isStop = true
+        this.isPlay = false
+      })
+    },
+    // stop song
+    stopS: function () {
+      this.isStop = true
+      this.isPlay = false
     }
   },
   watch: {

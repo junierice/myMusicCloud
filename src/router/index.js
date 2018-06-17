@@ -9,7 +9,7 @@ Vue.use(Router)
 export default new Router({
   scrollBehavior (to, from, savedPosition) {
     if (from.fullPath.match('^/index.*$') && to.fullPath.match('^/song.*$')) {
-      console.log('顶部')
+      // console.log('顶部')
       return { x: 0, y: 0 }
     }
     if (savedPosition) {

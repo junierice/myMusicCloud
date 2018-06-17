@@ -6,6 +6,7 @@
             <mt-tab-item id="songHot">热歌榜</mt-tab-item>
             <mt-tab-item id="songSearch">搜索</mt-tab-item>
         </mt-navbar>
+        <keep-alive>
         <mt-tab-container v-model="selected">
             <mt-tab-container-item id="songReco">
                 <songReco></songReco>
@@ -20,6 +21,7 @@
                 </div>
             </mt-tab-container-item>
         </mt-tab-container>
+        </keep-alive>
     </div>
 </template>
 
