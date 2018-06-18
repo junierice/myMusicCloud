@@ -98,7 +98,7 @@ export default {
       this.isPlay = true
       let p = document.getElementById('music').play()
       p.catch(err => {
-        console.log(err)
+        console.error(err)
         this.isStop = true
         this.isPlay = false
       })
