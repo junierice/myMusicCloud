@@ -1,94 +1,56 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
-  </div>
+  <div>
+    <button @click="start()">从头放</button>
+    <button @click="pause()">暂停</button>
+    <button @click="goon()">继续放</button>
+    <div class="playing-lyric">{{ playingLyric }}</div>
+    </div>
 </template>
 
 <script>
+import axios from 'axios'
+// import Lyric from 'lyric-parser'
+import Lyric from '../utils/Lyric.js'
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      currentLyric: null, // 当前歌曲的歌词对象
+      currentLineNum: 0, // 当前歌曲正在播放的歌词行数
+      playingLyric: '' // 当前播放的某句歌词
+    }
+  },
+  created () {
+    this.test()
+  },
+  methods: {
+    test: function () {
+      axios.get('api/lyric?id=542690276')
+        .then(res => {
+          console.log(res.data.lrc.lyric)
+          this.currentLyric = new Lyric(res.data.lrc.lyric, this.handleLyric)
+          console.log(this.currentLyric)
+        })
+    },
+    start: function () {
+      this.currentLyric.play()
+    },
+    pause: function () {
+      this.currentLyric.togglePlay()
+    },
+    goon: function () {
+      this.currentLyric.togglePlay()
+    },
+    handleLyric ({ lineNum, txt }) {
+      this.currentLineNum = lineNum
+      /* 如果当前歌词的行数大于6，则将该行歌词滚动到歌词列表中间，否则滚动到歌词列表顶部，这里滚动都加了1000ms的过渡动画 */
+      // if (lineNum > 6) {
+      //   let lineEle = this.$refs.lyricLine[lineNum - 6]
+      //   this.$refs.lyricList.scrollToElement(lineEle, 1000)
+      // } else {
+      //   this.$refs.lyricList.scrollTo(0, 0, 1000)
+      // }
+      this.playingLyric = txt
     }
   }
 }
@@ -96,18 +58,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
