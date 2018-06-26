@@ -43,8 +43,15 @@ export default {
   created () {
     this.init()
   },
+  destroyed () {
+    window.global.selected = this.selected
+    // window.localStorage.setItem('selected', this.selected)
+  },
   methods: {
     init: function () {
+      window.global = window.global || {}
+      this.selected = window.global.selected ? window.global.selected : 'songReco'
+      // this.selected = window.localStorage.getItem('selected') ? window.localStorage.getItem('selected') : 'songReco'
       axios.get('api/top/playlist?limit=10&order=new')
         .then(res => {
           this.playlist = res.data.playlists

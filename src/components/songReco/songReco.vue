@@ -1,10 +1,12 @@
 <template>
-    <div><p>RR</p></div>
+    <div><plReco></plReco></div>
 </template>
 
 <script>
+import plReco from '../playlistReco/playlistReco'
 export default {
-  name: 'songReco'
+  name: 'songReco',
+  components: { plReco }
 }
 </script>
 
