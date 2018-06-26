@@ -4,15 +4,20 @@
             <img src="../../../img/musicLogo.png" alt="Music Logo"/>
             <img src="../../../img/brand.png" alt="我的好音乐" />
         </div>
-        <div class="topfr">
-            下载APP
+        <div class="topfr" @click="toMyGit()">
+            下载
         </div>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'brand'
+  name: 'brand',
+  methods: {
+    toMyGit () {
+      window.location.href = 'https://github.com/junierice/myMusicCloud.git'
+    }
+  }
 }
 </script>
 

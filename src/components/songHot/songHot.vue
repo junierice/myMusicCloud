@@ -2,7 +2,7 @@
     <div>
       <img src="../../../img/btf-pic.png"/>
       <songHotBlocks></songHotBlocks>
-      <div>查看完整榜单</div>
+      <mt-cell title="下载" class = "mt-cell-download" to ="https://github.com/junierice/myMusicCloud.git"></mt-cell>
     </div>
 </template>
 
