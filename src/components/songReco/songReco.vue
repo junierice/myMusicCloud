@@ -1,12 +1,16 @@
 <template>
-    <div><plReco></plReco></div>
+    <div>
+      <plReco></plReco>
+      <sNew></sNew>
+    </div>
 </template>
 
 <script>
 import plReco from '../playlistReco/playlistReco'
+import sNew from '../songNew/songNew'
 export default {
   name: 'songReco',
-  components: { plReco }
+  components: { plReco, sNew }
 }
 </script>
 
