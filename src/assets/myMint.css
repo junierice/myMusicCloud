@@ -25,6 +25,8 @@
 .mint-cell-wrapper {
   line-height: normal;
   background-image: none;
+}
+.rank .mint-cell-wrapper {
   padding-left: 0;
 }
 .mint-cell-title {

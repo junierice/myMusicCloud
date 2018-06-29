@@ -1,8 +1,8 @@
 <template>
     <div class="songBlock">
-      <div class="song" v-for="(song, index) in playlist" :key="song.id" @click="getSong(song.id)" >
+      <div class="song" v-for="(song, index) in songList" :key="song.id" @click="getSong(song.id)" >
         <p :class="index<3?'top_number':'number'">{{index>8?``:0}}{{index+1}}</p>
-        <mt-cell :title='song.name' :label='computeLabel(song)'>
+        <mt-cell class="rank" :title='song.name' :label='computeLabel(song)'>
           <img src="../../../img/play.png" width="26" height="26" />
         </mt-cell>
       </div>
@@ -10,28 +10,12 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   name: 'songBlocksRank',
-  data () {
-    return {
-      playlist: []
-    }
-  },
-  created () {
-    this.init()
+  props: {
+    songList: Array
   },
   methods: {
-    init: function () {
-      axios.get('api/top/list?idx=1')
-        .then(res => {
-          let a = [...res.data.playlist.tracks]
-          this.playlist = a.slice(0, 20)
-        })
-        .catch(err => {
-          console.error(err)
-        })
-    },
     computeLabel (song) {
       let artists = ``
       song.ar.forEach((arNames, index) => {

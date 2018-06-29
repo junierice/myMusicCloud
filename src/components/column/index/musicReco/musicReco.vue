@@ -2,6 +2,7 @@
     <div>
       <playlistReco></playlistReco>
       <songNew></songNew>
+      <mt-cell title="下载" class = "mt-cell-download" to ="https://github.com/junierice/myMusicCloud.git"></mt-cell>
     </div>
 </template>
 
