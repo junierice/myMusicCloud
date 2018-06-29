@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import plRecoBlocks from './playlistRecoBlocks'
+import plRecoBlocks from '../../../block/playlistRecoBlocks'
 export default {
   name: 'plReco',
   components: { plRecoBlocks }

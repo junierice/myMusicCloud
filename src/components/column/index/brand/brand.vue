@@ -1,8 +1,8 @@
 <template>
     <div class="m-hometop">
         <div class="topfl">
-            <img src="../../../img/musicLogo.png" alt="Music Logo"/>
-            <img src="../../../img/brand.png" alt="我的好音乐" />
+            <img src="../../../../../img/musicLogo.png" alt="Music Logo"/>
+            <img src="../../../../../img/brand.png" alt="我的好音乐" />
         </div>
         <div class="topfr" @click="toMyGit()">
             下载

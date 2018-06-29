@@ -23,7 +23,7 @@
 <script>
 import axios from 'axios'
 import BScroll from 'better-scroll'
-import Lyric from '../utils/Lyric.js'
+import Lyric from '../../utils/Lyric.js'
 export default {
   name: 'HelloWorld',
   components: { scroll },

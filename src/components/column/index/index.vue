@@ -9,16 +9,13 @@
         <keep-alive>
         <mt-tab-container v-model="selected">
             <mt-tab-container-item id="songReco">
-                <songReco></songReco>
+                <musicReco></musicReco>
             </mt-tab-container-item>
             <mt-tab-container-item id="songHot">
                 <songHot></songHot>
             </mt-tab-container-item>
             <mt-tab-container-item id="songSearch">
-                <!-- <songSearch></songSearch> -->
-                <div>
-                    <li v-for="song in playlist" v-bind:key="song.id">{{song.name}}</li>
-                </div>
+                <songSearch></songSearch>
             </mt-tab-container-item>
         </mt-tab-container>
         </keep-alive>
@@ -27,13 +24,13 @@
 
 <script>
 import axios from 'axios'
-import brand from '../brand/brand.vue'
-import songHot from '../songHot/songHot'
-import songReco from '../songReco/songReco'
-import songSearch from '../songSearch/songSearch'
+import brand from './brand/brand.vue'
+import songHot from './songHot/songHot'
+import musicReco from './musicReco/musicReco'
+import songSearch from './search/songSearch'
 export default {
   name: 'index',
-  components: {brand, songHot, songReco, songSearch},
+  components: {brand, musicReco, songHot, songSearch},
   data () {
     return {
       selected: 'songReco',

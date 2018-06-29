@@ -30,7 +30,7 @@
 
 <script>
 import axios from 'axios'
-import lyric from './lyric'
+import lyric from './lyric/lyric'
 export default {
   name: 'Song',
   components: {lyric},

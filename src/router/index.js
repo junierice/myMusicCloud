@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '../components/HelloWorld'
-import IndexComponent from '../components/index/index.vue'
-import Song from '../components/song/song.vue'
+import HelloWorld from '../components/test/HelloWorld.vue'
+import IndexComponent from '../components/column/index/index.vue'
+import Song from '../components/pages/songPage/song.vue'
 
 Vue.use(Router)
 
