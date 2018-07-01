@@ -31,12 +31,22 @@
 }
 .mint-cell-title {
   padding: 6px 0;
+  width: 0;
+  flex: 1 1 auto;
+  line-height: 1.5;
 }
 .mint-cell-text{
   font-size: 17px;
 }
 .mint-cell-label {
   margin: 0;
+}
+.mint-cell-text, .mint-cell-label {
+  display: block;
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: normal;
 }
 .mt-cell-download{
   height: 55px;
