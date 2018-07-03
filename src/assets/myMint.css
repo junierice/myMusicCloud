@@ -53,3 +53,17 @@
   text-align: center;
   color: rgb(129, 129, 129);
 }
+.mint-searchbar {
+  background-color: white;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+.mint-search{
+  height: 100%;
+}
+.mint-searchbar-inner {
+  background-color: #ebecec;
+  border-radius: 30px;
+}
+.mint-searchbar-inner input {
+  background-color: #ebecec;
+}

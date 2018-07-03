@@ -1,16 +1,17 @@
 <template>
   <div>
-    新歌榜：
+    <atitle v-bind:titletxt="`最新音乐：`"></atitle>
     <songBlocksRam v-bind:songList="songNewList"></songBlocksRam>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import atitle from '../../../block/atitle'
 import songBlocksRam from '../../../block/songBlocksRam'
 export default {
   name: 'songNew',
-  components: { songBlocksRam },
+  components: { songBlocksRam, atitle },
   data () {
     return {
       songNewList: []
@@ -21,10 +22,11 @@ export default {
   },
   methods: {
     init: function () {
-      axios.get('api/top/list?idx=0')
+      axios.get('api/personalized/newsong')
         .then(res => {
-          let a = [...res.data.playlist.tracks]
-          this.songNewList = a.slice(0, 10)
+          let a = [...res.data.result]
+          this.songNewList = a
+          console.log(a)
         })
         .catch(err => {
           console.error(err)

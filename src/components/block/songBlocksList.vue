@@ -41,8 +41,8 @@ export default {
   display: flex
 }
 .number{
-  margin-left: 10px;
-  width: 28px;
+  text-align: center;
+  width: 40px;
   font-size: 17px;
   color: #999;
 }

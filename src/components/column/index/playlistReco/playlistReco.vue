@@ -1,19 +1,22 @@
 <template>
   <div>
-    推荐歌单：
+    <atitle v-bind:titletxt="`推荐歌单：`"></atitle>
     <plRecoBlocks v-bind:playlistList="playlistList"></plRecoBlocks>
+    <plRecoBlocks v-bind:playlistList="playlistList1"></plRecoBlocks>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import atitle from '../../../block/atitle'
 import plRecoBlocks from '../../../block/playlistRecoBlocks'
 export default {
   name: 'plReco',
-  components: { plRecoBlocks },
+  components: { plRecoBlocks, atitle },
   data () {
     return {
-      playlistList: []
+      playlistList: [],
+      playlistList1: []
     }
   },
   created () {
@@ -24,7 +27,8 @@ export default {
       axios.get('api/personalized')
         .then(res => {
           let a = [...res.data.result]
-          this.playlistList = a.slice(0, 6)
+          this.playlistList = a.slice(0, 3)
+          this.playlistList1 = a.slice(3, 6)
         })
         .catch(err => {
           console.error(err)

@@ -4,7 +4,7 @@ import HelloWorld from '../components/test/HelloWorld.vue'
 import IndexComponent from '../components/column/index/index.vue'
 import Song from '../components/pages/songPage/song.vue'
 import Album from '../components/pages/albumPage/album.vue'
-import Singer from '../components/pages/singerPage/singer.vue'
+import Artist from '../components/pages/artistPage/artist.vue'
 import Playlist from '../components/pages/playlistPage/playlist.vue'
 
 Vue.use(Router)
@@ -45,8 +45,8 @@ export default new Router({
       component: Album
     },
     {
-      path: '/singer/:id',
-      component: Singer
+      path: '/artist/:id',
+      component: Artist
     },
     {
       path: '/playlist/:id',

@@ -17,10 +17,10 @@ export default {
   methods: {
     computeLabel (song) {
       let artists = ``
-      song.ar.forEach((arNames, index) => {
-        artists = artists + (index > 0 ? ` / ` : ``) + arNames.name
+      song.song.artists.forEach((ar, index) => {
+        artists = artists + (index > 0 ? ` / ` : ``) + ar.name
       })
-      let label = `${artists} - ${song.al.name}`
+      let label = `${artists} - ${song.song.album.name}`
       return label
     },
     getSong (id) {
