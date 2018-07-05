@@ -106,6 +106,9 @@ export default {
   height: 100%;
   margin-left: 16px;
   float: left;
+  position: absolute;
+  top: 30px;
+  left: 141px;
 }
 h2{
   margin: 0;

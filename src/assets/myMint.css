@@ -67,3 +67,7 @@
 .mint-searchbar-inner input {
   background-color: #ebecec;
 }
+.mint-search-list {
+  height: 0;
+  padding-top: 0;
+}

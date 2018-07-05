@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="m-song-clickarea" v-on:click="switchP()"></div>
+    <div class="bg" v-bind:style="{backgroundImage:'url('+picUrl+')'}"></div>
     <audio id="music" :src="mp3Url" @canplay="playS()" @ended="stopS()"></audio>
     <div class="m-song-wrap">
       <div class="m-song-disc">
@@ -118,19 +119,34 @@ export default {
 </script>
 
 <style scoped>
+.bg{
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-size:auto 100%;
+  background-position: center;
+  /* background-repeat:repeat; */
+  /* background-attachment:fixed; */
+  z-index: -1;
+  -webkit-filter: blur(55px);
+  -moz-filter: blur(55px);
+  -o-filter: blur(55px);
+  -ms-filter: blur(55px);
+  filter: blur(55px);
+}
 .m-song-wrap{
-  background-color: pink;
   padding-top: 63px;
 }
 .m-song-disc{
-  background-color: aquamarine;
   height: 248px;
   position: relative;
 }
 .m-song-rollwrap{
   height: 150px;
   width: 150px;
-  margin: -75px 0 0 -75px;
+  margin: -105px 0 0 -105px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -147,10 +163,10 @@ export default {
 }
 .Rotation{
   transform: rotate(360deg);
-  animation: rotation 10s linear infinite;
-  -moz-animation: rotation 10s linear infinite;
-  -webkit-animation: rotation 10s linear infinite;
-  -o-animation: rotation 10s linear infinite;
+  animation: rotation 20s linear infinite;
+  -moz-animation: rotation 20s linear infinite;
+  -webkit-animation: rotation 20s linear infinite;
+  -o-animation: rotation 20s linear infinite;
 }
 @keyframes rotation{
   from {-webkit-transform: rotate(0deg);}
@@ -167,35 +183,33 @@ export default {
 .m-song-pic{
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+  border: 30px solid black;
 }
 @media screen and (min-width: 360px){
 .m-song-wrap{
-  background-color: pink;
   padding-top: 70px;
 }
 .m-song-disc{
-  background-color: aquamarine;
   height: 296px;
 }
 .m-song-rollwrap{
   height: 184px;
   width: 184px;
-  margin: -92px 0 0 -92px;
+  margin: -122px 0 0 -122px;
 }
 }
 @media screen and (min-width: 414px){
 .m-song-wrap{
-  background-color: pink;
   padding-top: 80px;
 }
 .m-song-disc{
-  background-color: aquamarine;
   height: 342px;
 }
 .m-song-rollwrap{
   height: 212px;
   width: 212px;
-  margin: -106px 0 0 -106px;
+  margin: -136px 0 0 -136px;
 }
 }
 </style>

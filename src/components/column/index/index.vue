@@ -15,7 +15,7 @@
                 <songHot></songHot>
             </mt-tab-container-item>
             <mt-tab-container-item id="songSearch">
-                <songSearch></songSearch>
+                <songSearch :selected="selected"></songSearch>
             </mt-tab-container-item>
         </mt-tab-container>
         </keep-alive>
@@ -40,14 +40,11 @@ export default {
   created () {
     this.init()
   },
-  destroyed () {
-    window.global.selected = this.selected
-    // window.localStorage.setItem('selected', this.selected)
-  },
   methods: {
     init: function () {
-      window.global = window.global || {}
-      this.selected = window.global.selected ? window.global.selected : 'songReco'
+      // window.global = window.global || {}
+      this.selected = window.sessionStorage.getItem('selected') ? window.sessionStorage.getItem('selected') : 'songReco'
+      // this.selected = window.global.selected ? window.global.selected : 'songReco'
       // this.selected = window.localStorage.getItem('selected') ? window.localStorage.getItem('selected') : 'songReco'
       axios.get('api/top/playlist?limit=10&order=new')
         .then(res => {
@@ -58,6 +55,11 @@ export default {
         .catch(err => {
           console.error(err)
         })
+    }
+  },
+  watch: {
+    selected (curV, oldV) {
+      window.sessionStorage.setItem('selected', this.selected)
     }
   }
 }

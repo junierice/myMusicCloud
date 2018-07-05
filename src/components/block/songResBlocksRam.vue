@@ -10,17 +10,17 @@
 
 <script>
 export default {
-  name: 'songBlocksRam',
+  name: 'songResBlocksRam',
   props: {
     songList: Array
   },
   methods: {
     computeLabel (song) {
       let artists = ``
-      song.song.artists.forEach((ar, index) => {
+      song.artists.forEach((ar, index) => {
         artists = artists + (index > 0 ? ` / ` : ``) + ar.name
       })
-      let label = `${artists} - ${song.song.album.name}`
+      let label = `${artists} - ${song.album.name}`
       return label
     },
     getSong (id) {

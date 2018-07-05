@@ -1,6 +1,6 @@
 <template>
   <div class="remd_songs">
-    <div class="remd_li" v-for="playlist in playlistList" :key="playlist.id">
+    <div class="remd_li" v-for="playlist in playlistList" :key="playlist.id" @click="getPlaylist(playlist.id)">
       <img :src="playlist.picUrl"/>
       <div class="text">{{ playlist.name }}</div>
     </div>
@@ -12,6 +12,13 @@ export default {
   name: 'plRecoBlocks',
   props: {
     playlistList: Array
+  },
+  methods: {
+    getPlaylist (id) {
+      this.$router.push({
+        path: `/playlist/${id}`
+      })
+    }
   }
 }
 </script>

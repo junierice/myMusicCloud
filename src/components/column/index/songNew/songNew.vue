@@ -26,7 +26,7 @@ export default {
         .then(res => {
           let a = [...res.data.result]
           this.songNewList = a
-          console.log(a)
+          // console.log(a)
         })
         .catch(err => {
           console.error(err)
