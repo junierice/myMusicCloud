@@ -1,53 +1,58 @@
 <template>
   <div>
-    <div class="m-song-clickarea" v-on:click="switchP()"></div>
-    <div class="bg" v-bind:style="{backgroundImage:'url('+picUrl+')'}"></div>
-    <audio id="music" :src="mp3Url" @canplay="playS()" @ended="stopS()"></audio>
-    <div class="m-song-wrap">
-      <div class="m-song-disc">
-        <div class="m-song-rollwrap">
-          <img class = "m-song-pic" :class="isStop?'':(isPlay?'Rotation play':'Rotation pause')" :src ="picUrl"/>
-          <!-- :class="isPlay?'play':'pause'" -->
+    <div class="m-song_newfst" :style="`height: `+ height +`px`" id="newfst">
+      <div class="m-song-clickarea" v-on:click="switchP()"></div>
+      <div class="bg" v-bind:style="{backgroundImage:'url('+picUrl+')'}"></div>
+      <audio id="music" :src="mp3Url" @canplay="playS()" @ended="stopS()"></audio>
+      <img class="m-logo" src="../../../../img/brand.png"/>
+      <div class="m-song-wrap">
+        <div class="m-song-disc">
+          <div class="m-song-rollwrap">
+            <img class = "m-song-pic" :class="isStop?'':(isPlay?'Rotation play':'Rotation pause')" :src ="picUrl"/>
+            <!-- :class="isPlay?'play':'pause'" -->
+          </div>
         </div>
       </div>
+      <lyric :songName="songName" :artist="artist"></lyric>
     </div>
-    <lyric></lyric>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
-    <p>{{ $route.params.id }}</p>
+    <div class="m-song_newcomm">
+      <atitle class="color-w" :titletxt = "`精彩评论`"></atitle>
+      <comments :comments = "commentsGood" :isSongPage="`yes`"></comments>
+      <mt-cell title="下载" class = "mt-cell-download-songPage" to ="https://github.com/junierice/myMusicCloud.git"></mt-cell>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import lyric from './lyric/lyric'
+import atitle from '../../block/atitle'
+import comments from '../../block/commentBlocks'
 export default {
   name: 'Song',
-  components: {lyric},
+  components: {lyric, atitle, comments},
   data () {
     return {
       picUrl: null,
       isStop: true,
       isPlay: false,
-      mp3Url: null
+      mp3Url: null,
+      songName: null,
+      artist: null,
+      height: 0,
+      commentsGood: []
     }
   },
   created () {
+    this.height = this.getHeight() - 30
     this.updateSong()
     // console.log('create')
   },
   methods: {
+    getHeight: function () {
+      let h = window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight
+      return h
+    },
     print: function (msg) {
       console.log(msg)
     },
@@ -62,6 +67,19 @@ export default {
       axios.get('api/song/detail?ids=' + this.$route.params.id)
         .then(res => {
           this.picUrl = res.data.songs[0].al.picUrl
+          this.songName = res.data.songs[0].name
+          this.artist = ``
+          res.data.songs[0].ar.forEach((ar, index) => {
+            this.artist = this.artist + (index > 0 ? ` / ` : ``) + ar.name
+          })
+        })
+        .catch(err => {
+          console.error(err)
+        })
+      // 获取评论
+      axios.get('api/comment/music?id=' + this.$route.params.id)
+        .then(res => {
+          this.commentsGood = res.data.hotComments
         })
         .catch(err => {
           console.error(err)
@@ -119,6 +137,13 @@ export default {
 </script>
 
 <style scoped>
+.m-song_newcomm{
+  margin: 0;
+  padding: 0;
+  position: relative;
+  padding-top: 20px;
+  min-height: 145px;
+}
 .bg{
   position: fixed;
   left: 0;
@@ -130,11 +155,34 @@ export default {
   /* background-repeat:repeat; */
   /* background-attachment:fixed; */
   z-index: -1;
-  -webkit-filter: blur(55px);
-  -moz-filter: blur(55px);
-  -o-filter: blur(55px);
-  -ms-filter: blur(55px);
-  filter: blur(55px);
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
+.bg::after{
+  position: fixed;
+  left: 0;
+  right: 0;
+  content: " ";
+  bottom: 0;
+  top: 0;
+  background-color: rgba(0,0,0,.5);
+}
+.m-song_newfst{
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  padding-bottom: 30px;
+  /* background-color: rgba(248, 223, 1, 0.5); */
+}
+.m-logo{
+  position: absolute;
+  left: 20px;
+  top: 12px;
+  height: 17px;
 }
 .m-song-wrap{
   padding-top: 63px;
@@ -157,9 +205,9 @@ export default {
   width: 100%;
   top: 0;
   left: 0;
-  bottom: 12px;
+  bottom: 30px;
   z-index: 10;
-  /* background-color: rgba(0, 0, 0, 0.1); */
+  /* background-color: rgba(255, 4, 4, 0.1); */
 }
 .Rotation{
   transform: rotate(360deg);

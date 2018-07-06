@@ -8,7 +8,7 @@
         <div class="cmt-wrap">
           <div class="cmt-header">
             <div class="cmt-meta">
-              <div class="cmt-user">
+              <div class="cmt-user" :class="isSongPage === `yes` ? `cmt-user-songPage`:``">
                 {{comment.user.nickname}}
               </div>
               <div class="cmt-time">
@@ -19,7 +19,7 @@
               {{comment.likedCount}}liked
             </div>
           </div>
-          <div class="cmt-content">
+          <div class="cmt-content" :class="isSongPage === `yes` ? `cmt-content-songPage`:``">
             <span v-if="comment.beReplied.length>0">
               回复
               <span style="color:blue">@{{comment.beReplied[0].user.nickname}}
@@ -41,7 +41,8 @@
 export default {
   name: 'comment',
   props: {
-    comments: Array
+    comments: Array,
+    isSongPage: String
   },
   methods: {
     formatDate (t) {
@@ -93,6 +94,9 @@ img{
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.cmt-user-songPage{
+  color: hsla(0,0%,100%,.7);
+}
 .cmt-time{
   font-size: 9px;
   color: #999;
@@ -112,6 +116,9 @@ img{
   margin-top: 5px;
   display: block;
   text-align: left;
+}
+.cmt-content-songPage{
+  color: #fff;
 }
 .reply{
   margin: 5px 0;
