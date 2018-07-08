@@ -52,8 +52,8 @@ export default {
       console.log('test')
     },
     search (value) {
-      console.log('searching...')
       this.loading = true
+      console.log('searching...')
       this.allLoaded = false
       this.offset = 0
       this.value = value
@@ -63,21 +63,17 @@ export default {
           this.searchRes = res.data.result.songs
           console.log('offset=' + this.offset)
           // 异步
-          this.loading = false
           console.log('显示完毕')
+          this.loading = false
+          console.log(this.loading)
         })
         .catch(err => {
           console.error(err)
         })
     },
     loadMore () {
-      console.log('loading...')
       this.loading = true
-      if (this.allLoaded === true) {
-        console.log('meile')
-        return
-      }
-      console.log('ok1')
+      console.log('loading...')
       axios.get('api/search?keywords=' + this.value + '&limit=10&offset=' + this.offset)
         .then(res => {
           if (res.data.code === 200 && res.data.result.songs != null) {
@@ -87,11 +83,13 @@ export default {
           }
           if (res.data.code === 200 && res.data.result.songs === undefined) {
             this.allLoaded = true
-            console.log('allLoaded=true')
+            console.log('没了')
+            return
           }
           // 异步
-          this.loading = false
           console.log('显示完毕')
+          this.loading = false
+          console.log(this.loading)
         })
         .catch(err => {
           console.error(err)

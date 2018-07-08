@@ -8,11 +8,7 @@
       </h2>
       <div class="m-song-lrc">
         <div class="m-song-scroll">
-          {{ $route.params.id }}
-          <br>
-          {{ $route.params.id }}
-          <br>
-          {{ $route.params.id }}
+          {{ playingLyric }}
         </div>
       </div>
     </div>
@@ -22,15 +18,24 @@
 <script>
 // import Lyric from 'lyric-parser'
 import axios from 'axios'
+// import BScroll from 'better-scroll'
+import Lyric from '../../../../utils/Lyric.js'
 export default {
   name: 'Lyric',
   props: {
     songName: String,
     artist: String
   },
+  data () {
+    return {
+      currentLyric: {}, // 当前歌曲的歌词对象
+      currentLineNum: 0, // 当前歌曲正在播放的歌词行数
+      playingLyric: '' // 当前播放的某句歌词
+      // bScroll: null
+    }
+  },
   created () {
-    // this.ll = this.getLrc()
-    // this.ll.play()
+    this.getLrc()
   },
   methods: {
     test: function () {
@@ -40,15 +45,34 @@ export default {
       axios.get('api/lyric?id=' + this.$route.params.id)
         .then(res => {
           console.log(res.data.lrc.lyric)
-          // let l = res.data.lrc.lyric
-          // let ll = new Lyric(l, function (obj) {
-          //   console.log(obj)
-          // })
-          // return ll
+          // this.bScroll = new BScroll('.wrapper')
+          this.currentLyric = new Lyric(res.data.lrc.lyric, this.handleLyric)
+          console.log(this.currentLyric)
         })
         .catch(err => {
           console.error(err)
         })
+    },
+    start: function () {
+      this.currentLyric.play()
+    },
+    pause: function () {
+      this.currentLyric.togglePlay()
+    },
+    goon: function () {
+      this.currentLyric.togglePlay()
+    },
+    handleLyric ({ lineNum, txt }) {
+      this.currentLineNum = lineNum
+      // 若当前行大于5,开始滚动,以保歌词显示于中间位置
+      // if (lineNum >= 2) {
+      //   let lineEl = this.$refs.lyricLine[lineNum - 2]
+      //   // 结合better-scroll，滚动歌词
+      //   this.bScroll.scrollToElement(lineEl, 1000)
+      // } else {
+      //   this.bScroll.scrollToElement(0, 0, 1000)
+      // }
+      this.playingLyric = txt
     }
   }
 }
@@ -96,5 +120,9 @@ export default {
   line-height: 1.5;
   overflow: hidden;
   color: hsla(0,0%,100%,.6);
+}
+.wrapper{
+  overflow: hidden;
+  height: 120px;
 }
 </style>
