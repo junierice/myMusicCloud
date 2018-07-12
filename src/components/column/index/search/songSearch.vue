@@ -11,7 +11,7 @@
                           infinite-scroll-disabled="loading"
                           infinite-scroll-distance="0"
                           infinite-scroll-immediate-check="false">
-        <songResBlocksRam :songList="searchRes"></songResBlocksRam>
+        <songResBlocksRam :simpleResult="simpleResult"></songResBlocksRam>
       </div>
     </div>
 </template>
@@ -27,10 +27,10 @@ export default {
   },
   data () {
     return {
+      simpleResult: [],
       hots: [],
       value: '',
       offset: 0,
-      searchRes: [],
       loading: true,
       allLoaded: true
     }
@@ -39,6 +39,22 @@ export default {
     this.init()
   },
   methods: {
+    mkResultJson (rawResult) {
+      rawResult.forEach(item => {
+        let data = {}
+        data['id'] = item.id
+        data['songName'] = item.name
+        let artists = ``
+        item.artists.forEach((ar, index) => {
+          artists = artists + (index > 0 ? ` / ` : ``) + ar.name
+        })
+        let label = `${artists} - ${item.album.name}`
+        data['label'] = label
+        data['withoutCopyRight'] = (item.album.copyrightId === 1000 && item.album.status === 1) || (item.album.copyrightId === 0 && item.album.status === -1)
+        // console.log(data)
+        this.simpleResult.push(data)
+      })
+    },
     init () {
       axios.get('api/search/hot')
         .then(res => {
@@ -57,10 +73,12 @@ export default {
       this.allLoaded = false
       this.offset = 0
       this.value = value
+      this.simpleResult = []
       axios.get('api/search?keywords=' + value + '&limit=10')
         .then(res => {
           this.offset = this.offset + res.data.result.songs.length
-          this.searchRes = res.data.result.songs
+          // this.searchRes = res.data.result.songs // 如果length===0？？？？
+          this.mkResultJson(res.data.result.songs)
           console.log('offset=' + this.offset)
           // 异步
           console.log('显示完毕')
@@ -74,11 +92,18 @@ export default {
     loadMore () {
       this.loading = true
       console.log('loading...')
-      axios.get('api/search?keywords=' + this.value + '&limit=10&offset=' + this.offset)
+      axios.get('api/search?keywords=' + this.value + '&offset=' + this.offset) // 加上&limit=10 后台出bug
         .then(res => {
           if (res.data.code === 200 && res.data.result.songs != null) {
-            this.offset = this.offset + res.data.result.songs.length
-            this.searchRes.push(...res.data.result.songs)
+            let list
+            if (res.data.result.songs.length > 10) {
+              list = res.data.result.songs.slice(0, 10)
+            } else {
+              list = res.data.result.songs
+            }
+            this.offset = this.offset + list.length
+            // this.searchRes.push(...res.data.result.songs)
+            this.mkResultJson(list)
             console.log('offset=' + this.offset)
           }
           if (res.data.code === 200 && res.data.result.songs === undefined) {

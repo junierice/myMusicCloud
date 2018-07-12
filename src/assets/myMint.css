@@ -41,6 +41,9 @@
 .mint-cell-label {
   margin: 0;
 }
+.gray .mint-cell-label {
+  color: #ccc;
+}
 .mint-cell-text, .mint-cell-label {
   display: block;
   overflow:hidden;

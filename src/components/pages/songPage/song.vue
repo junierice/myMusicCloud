@@ -13,9 +13,12 @@
           </div>
         </div>
       </div>
-      <lyric :songName="songName" :artist="artist"></lyric>
+      <lyric v-on:lyric_loaded="getMp3" :songName="songName" :artist="artist" ref="componentref"></lyric>
     </div>
-    <div class="m-song_newcomm">
+    <a v-if="curAxis === 0" class="m-giude" @click="jumptoComment">
+      <img class="up" src="../../../../img/up.png"/>
+    </a>
+    <div class="m-song_newcomm" id="m-song_newcomm">
       <atitle class="color-w" :titletxt = "`精彩评论`"></atitle>
       <comments :comments = "commentsGood" :isSongPage="`yes`"></comments>
       <mt-cell title="下载" class = "mt-cell-download-songPage" to ="https://github.com/junierice/myMusicCloud.git"></mt-cell>
@@ -34,21 +37,47 @@ export default {
   data () {
     return {
       picUrl: null,
-      isStop: true,
-      isPlay: false,
+      started: false, // 状态
+      isStop: true, // 状态
+      isPlay: false, // 状态
       mp3Url: null,
       songName: null,
       artist: null,
       height: 0,
-      commentsGood: []
+      commentsGood: [],
+      curAxis: 0
     }
   },
   created () {
     this.height = this.getHeight() - 30
     this.updateSong()
-    // console.log('create')
+  },
+  mounted () {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  destroyed () { // 离开该页面需要移除这个监听的事件
+    window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
+    handleScroll: function () {
+      this.curAxis = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    },
+    jumptoComment: function () {
+      document.querySelector('#m-song_newcomm').scrollIntoView(true)
+    },
+    getMp3: function () {
+      // 获取歌曲mp3
+      axios.get('api/music/url?id=' + this.$route.params.id)
+        .then(res => {
+          this.mp3Url = res.data.data[0].url
+          if (this.mp3Url === null) {
+            console.log('由于版权保护，您所在的地区暂时无法使用')
+          }
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
     getHeight: function () {
       let h = window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight
       return h
@@ -80,17 +109,7 @@ export default {
       axios.get('api/comment/music?id=' + this.$route.params.id)
         .then(res => {
           this.commentsGood = res.data.hotComments
-        })
-        .catch(err => {
-          console.error(err)
-        })
-      // 获取歌曲mp3
-      axios.get('api/music/url?id=' + this.$route.params.id)
-        .then(res => {
-          this.mp3Url = res.data.data[0].url
-          if (this.mp3Url === null) {
-            console.log('由于版权保护，您所在的地区暂时无法使用')
-          }
+          return res
         })
         .catch(err => {
           console.error(err)
@@ -99,13 +118,17 @@ export default {
     // 如果有版权，就可以控制播放/暂停
     switchP: function () {
       if (this.mp3Url != null) {
-        if (this.isPlay === true) {
+        if (this.started === false) {
+          this.playS()
+        } else if (this.isPlay === true) {
           this.isPlay = false
           document.getElementById('music').pause()
+          this.$refs.componentref.pauseOrGoon()
         } else {
           this.isStop = false
           this.isPlay = true
           document.getElementById('music').play()
+          this.$refs.componentref.pauseOrGoon()
         }
       } else {
         console.log('由于版权保护，您所在的地区暂时无法使用')
@@ -115,28 +138,54 @@ export default {
     playS: function () {
       this.isStop = false
       this.isPlay = true
-      let p = document.getElementById('music').play()
-      p.catch(err => {
-        console.error(err)
-        this.isStop = true
-        this.isPlay = false
-      })
+      document.getElementById('music').play()
+        .then(res => {
+          this.$refs.componentref.start()
+          this.started = true
+        }).catch(err => {
+          console.error(err)
+          this.isStop = true
+          this.isPlay = false
+        })
     },
     // stop song
     stopS: function () {
       this.isStop = true
       this.isPlay = false
+      this.started = false
     }
   },
   watch: {
     '$route' (to, from) {
+      if (this.mp3Url != null) {
+        if (this.isPlay === true) {
+          this.isPlay = false
+          document.getElementById('music').pause()
+          this.$refs.componentref.pauseOrGoon()
+        }
+      }
       this.updateSong()
+      this.$refs.componentref.changeSong()
     }
   }
 }
 </script>
 
 <style scoped>
+.up{
+  height: 70%;
+}
+.m-giude{
+  display: block;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: absolute;
+  height: 30px;
+  left: 0;
+  bottom: 0;
+  color: white;
+}
 .m-song_newcomm{
   margin: 0;
   padding: 0;
