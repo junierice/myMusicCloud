@@ -51,7 +51,12 @@ export default {
         .then(res => {
           // console.log(res.data.lrc.lyric)
           this.bScroll = new BScroll('.wrapper')
-          this.currentLyric = new Lyric(res.data.lrc.lyric, this.handleLyric)
+          if (res.data.lrc !== undefined) {
+            this.currentLyric = new Lyric(res.data.lrc.lyric, this.handleLyric)
+            this.$emit('lyric')
+          } else {
+            this.$emit('noLyric')
+          }
           // console.log(this.currentLyric)
           this.$emit('lyric_loaded')
         })

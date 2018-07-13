@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-      <lyric v-on:lyric_loaded="getMp3" :songName="songName" :artist="artist" ref="componentref"></lyric>
+      <lyric v-on:lyric="isLyric = true" v-on:noLyric="isLyric = false" v-on:lyric_loaded="getMp3" :songName="songName" :artist="artist" ref="componentref"></lyric>
     </div>
     <a v-if="curAxis === 0" class="m-giude" @click="jumptoComment">
       <img class="up" src="../../../../img/up.png"/>
@@ -45,7 +45,8 @@ export default {
       artist: null,
       height: 0,
       commentsGood: [],
-      curAxis: 0
+      curAxis: 0,
+      isLyric: false
     }
   },
   created () {
@@ -123,12 +124,16 @@ export default {
         } else if (this.isPlay === true) {
           this.isPlay = false
           document.getElementById('music').pause()
-          this.$refs.componentref.pauseOrGoon()
+          if (this.isLyric) {
+            this.$refs.componentref.pauseOrGoon()
+          }
         } else {
           this.isStop = false
           this.isPlay = true
           document.getElementById('music').play()
-          this.$refs.componentref.pauseOrGoon()
+          if (this.isLyric) {
+            this.$refs.componentref.pauseOrGoon()
+          }
         }
       } else {
         console.log('由于版权保护，您所在的地区暂时无法使用')
@@ -140,7 +145,9 @@ export default {
       this.isPlay = true
       document.getElementById('music').play()
         .then(res => {
-          this.$refs.componentref.start()
+          if (this.isLyric) {
+            this.$refs.componentref.start()
+          }
           this.started = true
         }).catch(err => {
           console.error(err)
@@ -161,7 +168,9 @@ export default {
         if (this.isPlay === true) {
           this.isPlay = false
           document.getElementById('music').pause()
-          this.$refs.componentref.pauseOrGoon()
+          if (this.isLyric) {
+            this.$refs.componentref.pauseOrGoon()
+          }
         }
       }
       this.updateSong()
@@ -185,6 +194,7 @@ export default {
   left: 0;
   bottom: 0;
   color: white;
+  z-index: 10;
 }
 .m-song_newcomm{
   margin: 0;
